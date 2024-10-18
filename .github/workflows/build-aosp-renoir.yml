@@ -1,4 +1,4 @@
-name: Build flashable kernel
+name: Build flashable kernel (AOSP renoir)
 
 on:
   workflow_dispatch:
