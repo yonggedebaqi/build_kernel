@@ -2,7 +2,6 @@ name: Build flashable kernel (AOSP renoir)
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   build:
