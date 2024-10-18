@@ -1,8 +1,7 @@
-name: Build flashable kernel
+name: Build flashable kernel (MIUI/HyperOS renoir)
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   build:
