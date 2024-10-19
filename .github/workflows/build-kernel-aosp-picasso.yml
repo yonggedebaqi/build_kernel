@@ -50,4 +50,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ env.TARGET_KERNEL_FLASHABLE_NAME }}
-        path: out/anykernel/Acetaminophen-kernel-*
+        path: out/AnyKernel3-picasso/Driftwood-Kernel*
