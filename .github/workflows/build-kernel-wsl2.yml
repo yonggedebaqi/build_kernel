@@ -1,0 +1,47 @@
+name: Build kernel Image (WSL2)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Kernel Source Code
+      uses: actions/checkout@v3
+      with:
+        github-server-url: 'https://github.com'
+        repository: EndCredits/kernel-wsl2
+        ref: linux-msft-wsl-6.6.y
+        path: kernel-srcroot
+    
+    - name: Setup Build Environment
+      run: |
+        sudo apt-get -y update
+        sudo apt-get install build-essential flex bison libssl-dev libelf-dev bc python3 pahole cpio git-core
+
+    - name: Setup Nathan Slim Clang
+      run: |
+        mkdir ./toolchain
+        cd ./toolchain
+        curl -o llvm-19.tar.gz https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-19.1.2-x86_64.tar.gz
+        tar -xvf llvm-19.tar.gz
+        TARGET_CLANG_PATH="$(pwd)/$(find ./ -name "bin")"
+        echo "TARGET_CLANG_PATH=${TARGET_CLANG_PATH}" > $GITHUB_ENV
+
+    - name: Build Kernel for WSL2
+      run: |
+        cd kernel-srcroot
+        PATH=${{ env.TARGET_CLANG_PATH }}/:$PATH
+        clang --version
+
+        bash build.sh
+
+        echo "TARGET_KERNEL_IMAGE=./out_wsl2/arch/arm64/boot/Image" >> $GITHUB_ENV
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.TARGET_KERNEL_IMAGE }}
+        path: out_wsl2/arch/arm64/boot/Image
