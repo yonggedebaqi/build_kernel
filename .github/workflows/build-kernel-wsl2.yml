@@ -38,10 +38,12 @@ jobs:
 
         bash build.sh
 
-        echo "TARGET_KERNEL_IMAGE=./out_wsl2/arch/arm64/boot/Image" >> $GITHUB_ENV
+        echo "TARGET_KERNEL_IMAGE=Image" >> $GITHUB_ENV
+
+        cp ../out_wsl2/arch/arm64/boot/Image ${{ github.workspace }}/Image
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.TARGET_KERNEL_IMAGE }}
-        path: out_wsl2/arch/arm64/boot/Image
+        path: ${{ github.workspace }}/Image
