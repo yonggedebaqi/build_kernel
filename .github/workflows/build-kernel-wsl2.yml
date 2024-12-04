@@ -46,8 +46,19 @@ jobs:
 
         cp ../out_wsl2/arch/arm64/boot/Image ${{ github.workspace }}/Image
 
+        LOCAL_VERSION=$(cat ../out_wsl2/.config | grep LOCALVERSION= | sed 's/\"//g' | sed 's/\-//g' | sed 's/.*\=//g')
+        CURRENT_TIME=$(date '+%Y%m%d-%H%M')
+        RELEASE_NAME=${LOCAL_VERSION}-${CURRENT_TIME}
+        echo $RELEASE_NAME >> $GITHUB_ENV
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.TARGET_KERNEL_IMAGE }}
         path: ${{ github.workspace }}/Image
+
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ github.workspace }}/Image
+        name: ${{ env.RELEASE_NAME }}
