@@ -36,7 +36,11 @@ jobs:
         PATH=${{ env.TARGET_CLANG_PATH }}/:$PATH
         clang --version
 
-        bash build.sh
+        make ARCH=arm64 LLVM=1 LLVM_IAS=1 O=../out_wsl2 -j$(nproc --all) wsl_defconfig
+
+        cat ../out_wsl2/.config
+
+        make ARCH=arm64 LLVM=1 LLVM_IAS=1 O=../out_wsl2 -j$(nproc --all)
 
         echo "TARGET_KERNEL_IMAGE=Image" >> $GITHUB_ENV
 
