@@ -62,3 +62,5 @@ jobs:
       with:
         files: ${{ github.workspace }}/Image
         name: ${{ env.RELEASE_NAME }}
+        tag_name: ${{ env.RELEASE_NAME }}
+        make_latest: true
