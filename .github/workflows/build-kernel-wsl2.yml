@@ -49,7 +49,7 @@ jobs:
         LOCAL_VERSION=$(cat ../out_wsl2/.config | grep LOCALVERSION= | sed 's/\"//g' | sed 's/\-//g' | sed 's/.*\=//g')
         CURRENT_TIME=$(date '+%Y%m%d-%H%M')
         RELEASE_NAME=${LOCAL_VERSION}-${CURRENT_TIME}
-        echo $RELEASE_NAME >> $GITHUB_ENV
+        echo “RELEASE_NAME=$RELEASE_NAME” >> $GITHUB_ENV
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
