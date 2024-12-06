@@ -3,6 +3,10 @@ name: Build kernel Image (WSL2)
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  discussions: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
